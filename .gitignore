@@ -1,4 +1,4 @@
-.idea
+.idea/
 
 .gradle
 
@@ -7,3 +7,5 @@ build
 app.iml
 
 app/build
+
+app/.gradle
