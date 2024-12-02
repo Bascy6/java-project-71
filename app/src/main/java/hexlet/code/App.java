@@ -8,13 +8,12 @@ import picocli.CommandLine.Parameters;
 @Command(name = "gendiff",
         description = "Compares two configuration files and shows a difference.",
         mixinStandardHelpOptions = true)
-
 public class App implements Runnable {
 
-    @Parameters(index = "0", description = "The file whose checksum to calculate.")
+    @Parameters(index = "0", description = "The first file to compare.")
     private String filepath1;
 
-    @Parameters(index = "1", description = "The file whose checksum to calculate.")
+    @Parameters(index = "1", description = "The second file to compare.")
     private String filepath2;
 
     @Option(
@@ -31,6 +30,12 @@ public class App implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Hello World!");
+        Parsing parsing = new Parsing();
+        try {
+            Config mergedConfig = parsing.mergeConfigs(filepath1, filepath2);
+            System.out.println("Parsing: " + mergedConfig);
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 }
