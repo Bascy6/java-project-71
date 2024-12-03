@@ -25,7 +25,7 @@ public class Parsing {
         return objectMapper.readValue(path.toFile(), Config.class);
     }
 
-    public Config mergeConfigs(String filePath1, String filePath2) throws IOException {
+    public Config parsing(String filePath1, String filePath2) throws IOException {
         Config config1 = parseJsonFile(filePath1);
         Config config2 = parseJsonFile(filePath2);
 
