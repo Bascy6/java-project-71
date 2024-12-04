@@ -9,3 +9,5 @@ app.iml
 app/build
 
 app/.gradle
+
+app/config

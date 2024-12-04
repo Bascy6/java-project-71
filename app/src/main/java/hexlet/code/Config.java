@@ -49,12 +49,12 @@ public class Config {
 
     @Override
     public String toString() {
-        return "Config{" +
-                "host='" + host + '\'' +
-                ", timeout=" + timeout +
-                ", proxy='" + proxy + '\'' +
-                ", follow=" + follow +
-                ", verbose=" + verbose +
-                '}';
+        return "Config{"
+                + "host='" + host + '\''
+                + ", timeout=" + timeout
+                + ", proxy='" + proxy + '\''
+                + ", follow=" + follow
+                + ", verbose=" + verbose
+                + '}';
     }
 }
