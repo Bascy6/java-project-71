@@ -17,26 +17,13 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.11
-      - name: List directory contents
-        run: ls -R
-      - name: Make gradlew executable
-        run: chmod +x ./app/gradlew
-      - name: Run Gradle checkstyleMain
-        run: ./gradlew checkstyleMain
-        working-directory: ./app
-      - name: Run Gradle test
-        run: ./gradlew test
-        working-directory: ./app
-      - name: Generate JaCoCo report
-        run: ./gradlew jacocoTestReport
-        working-directory: ./app
+      - run: make checkstyleMain
+      - run: make test
       - name: Publish code coverage
-        uses: paambaati/codeclimate-action@v9.0.0
+        uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-          JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
+          JACOCO_SOURCE_PATH: app/src/main/java
         with:
-          coverageCommand: |
-            coverageCommand: |
-            ./app/gradlew jacocoTestReport
+          coverageCommand: make report
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
