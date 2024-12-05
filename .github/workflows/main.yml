@@ -17,6 +17,8 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.11
+      - name: List directory contents
+        run: ls -R
       - name: Make gradlew executable
         run: chmod +x ./app/gradlew
       - name: Run Gradle checkstyleMain
