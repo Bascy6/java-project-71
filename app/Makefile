@@ -13,7 +13,7 @@ install:
 	./gradlew clean install
 
 run-dist:
-	./build/install/java-package/bin/java-package
+	./build/install/app/bin/app
 
 run:
 	./gradlew run
@@ -24,7 +24,7 @@ test:
 report:
 	./gradlew jacocoTestReport
 
-lint:
+checkstyleMain:
 	./gradlew checkstyleMain
 
 check-deps:
