@@ -1,3 +1,4 @@
+
 name: Java CI
 
 on:
@@ -14,16 +15,16 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.11
-      - run: make -C app checkstyleMain
-      - run: make -C app test
+          gradle-version: 8.7
+      - run: make checkstyleMain
+      - run: make test
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           JACOCO_SOURCE_PATH: app/src/main/java
         with:
-          coverageCommand: make -C app report
+          coverageCommand: make report
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
