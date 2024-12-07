@@ -19,7 +19,7 @@ jobs:
         with:
           gradle-version: 8.7
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x app/gradlew
       - run: make checkstyleMain
       - run: make test
       - name: Publish code coverage
