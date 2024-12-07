@@ -13,10 +13,10 @@ import java.util.concurrent.Callable;
 
 public class App implements Callable<Integer> {
 
-    @Parameters(index = "0", description = "The first file to compare.")
+    @Parameters(index = "0", description = "The first file to parse.")
     private String filepath1;
 
-    @Parameters(index = "1", description = "The second file to compare.")
+    @Parameters(index = "1", description = "The second file to parse.")
     private String filepath2;
 
     @Option(
@@ -33,10 +33,9 @@ public class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        Differ differ = new Differ();
         try {
-            String result = differ.generate(filepath1, filepath2);
-            System.out.println(result);
+            String diff = Differ.generateDiff(filepath1, filepath2);
+            System.out.println(diff);
             return 0;
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());

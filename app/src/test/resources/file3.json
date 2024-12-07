@@ -1,6 +1,0 @@
-{
-  "host": "hexlet.io",
-  "timeout": 30,
-  "verbose": true,
-  "newKey": "newValue"
-}

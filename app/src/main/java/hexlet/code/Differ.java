@@ -1,43 +1,14 @@
-
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Differ {
-    private final ObjectMapper objectMapper;
 
-    public Differ() {
-        this.objectMapper = new ObjectMapper();
-    }
-
-    public JsonNode readJsonFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        if (!Files.exists(path)) {
-            path = Paths.get("./src/test/resources", filePath);
-            if (!Files.exists(path)) {
-                throw new IllegalArgumentException("File not found: " + path.toAbsolutePath());
-            }
-        }
-        return objectMapper.readTree(path.toFile());
-    }
-
-    public String generate(String filePath1, String filePath2) throws IOException {
-        JsonNode json1 = readJsonFile(filePath1);
-        JsonNode json2 = readJsonFile(filePath2);
-
-        Map<String, JsonNode> map1 = new TreeMap<>();
-        Map<String, JsonNode> map2 = new TreeMap<>();
-
-        json1.fields().forEachRemaining(entry -> map1.put(entry.getKey(), entry.getValue()));
-        json2.fields().forEachRemaining(entry -> map2.put(entry.getKey(), entry.getValue()));
+    public static String generate(Map<String, Object> json1, Map<String, Object> json2) {
+        Map<String, Object> map1 = new TreeMap<>(json1);
+        Map<String, Object> map2 = new TreeMap<>(json2);
 
         StringBuilder result = new StringBuilder("{\n");
 
@@ -61,5 +32,12 @@ public class Differ {
 
         result.append("}");
         return result.toString();
+    }
+
+    public static String generateDiff(String filepath1, String filepath2) throws IOException {
+        Map<String, Object> jsonContent1 = Parsing.parseJsonFile(filepath1);
+        Map<String, Object> jsonContent2 = Parsing.parseJsonFile(filepath2);
+
+        return generate(jsonContent1, jsonContent2);
     }
 }
