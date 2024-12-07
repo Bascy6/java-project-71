@@ -1,3 +1,4 @@
+
 package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +18,7 @@ public class Parsing {
     public Config parseJsonFile(String filePath) throws IOException {
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
-            path = Paths.get("src/main/resources", filePath);
+            path = Paths.get("./src/test/resources", filePath);
             if (!Files.exists(path)) {
                 throw new IllegalArgumentException("File not found: " + path.toAbsolutePath());
             }
