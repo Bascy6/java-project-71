@@ -1,3 +1,4 @@
-host: hexlet.io
-timeout: 20
-verbose: true
+floating_ip: 9.30.16.144
+prefix: 96
+subnet: 9.30.16.0
+default_gateway: false

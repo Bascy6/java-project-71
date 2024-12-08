@@ -1,9 +1,7 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DifferTest {
@@ -32,12 +30,14 @@ public class DifferTest {
         String filePath2 = "file2.yml";
 
         String expected = "{\n"
-                + "  - follow: false\n"
-                + "    host: hexlet.io\n"
-                + "  - proxy: 123.234.53.22\n"
-                + "  - timeout: 50\n"
-                + "  + timeout: 20\n"
-                + "  + verbose: true\n"
+                + "  - default_gateway: true\n"
+                + "  + default_gateway: false\n"
+                + "    floating_ip: 9.30.16.144\n"
+                + "  - gateway: 9.30.16.129\n"
+                + "  - mtu: 1500\n"
+                + "  - prefix: 25\n"
+                + "  + prefix: 96\n"
+                + "  + subnet: 9.30.16.0\n"
                 + "}";
 
         String actual = Differ.generateDiff(filePath1, filePath2);
