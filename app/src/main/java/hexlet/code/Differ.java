@@ -6,7 +6,7 @@ import java.util.TreeMap;
 
 public class Differ {
 
-    public static String generate(Map<String, Object> json1, Map<String, Object> json2) {
+    public static String generateDiff(Map<String, Object> json1, Map<String, Object> json2) {
         Map<String, Object> map1 = new TreeMap<>(json1);
         Map<String, Object> map2 = new TreeMap<>(json2);
 
@@ -34,10 +34,10 @@ public class Differ {
         return result.toString();
     }
 
-    public static String generateDiff(String filepath1, String filepath2) throws IOException {
-        Map<String, Object> jsonContent1 = Parsing.parseJsonFile(filepath1);
-        Map<String, Object> jsonContent2 = Parsing.parseJsonFile(filepath2);
+    public static String generateDiff(String filePath1, String filePath2) throws IOException {
+        Map<String, Object> jsonContent1 = Parser.parseFile(filePath1);
+        Map<String, Object> jsonContent2 = Parser.parseFile(filePath2);
 
-        return generate(jsonContent1, jsonContent2);
+        return generateDiff(jsonContent1, jsonContent2);
     }
 }
