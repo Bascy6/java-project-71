@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -25,9 +26,9 @@ public class Parser {
 
         String fileName = path.getFileName().toString().toLowerCase();
         if (fileName.endsWith(".json")) {
-            return JSON_OBJECT_MAPPER.readValue(path.toFile(), Map.class);
+            return JSON_OBJECT_MAPPER.readValue(path.toFile(), new TypeReference<Map<String, Object>>() { });
         } else if (fileName.endsWith(".yml") || fileName.endsWith(".yaml")) {
-            return YAML_OBJECT_MAPPER.readValue(path.toFile(), Map.class);
+            return YAML_OBJECT_MAPPER.readValue(path.toFile(), new TypeReference<Map<String, Object>>() { });
         } else {
             throw new IllegalArgumentException("Unsupported file format: " + fileName);
         }

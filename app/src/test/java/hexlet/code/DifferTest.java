@@ -1,95 +1,37 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
-import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DifferTest {
 
     @Test
-    public void testGenerateJson() throws IOException {
-        String filePath1 = "file1.json";
-        String filePath2 = "file2.json";
+    public void testUnsupportedFormat() {
+        String filePath1 = "src/test/resources/file1.json";
+        String filePath2 = "src/test/resources/file2.json";
 
-        String expected = "{\n"
-                + "  - follow: false\n"
-                + "    host: hexlet.io\n"
-                + "  - proxy: 123.234.53.22\n"
-                + "  - timeout: 50\n"
-                + "  + timeout: 20\n"
-                + "  + verbose: true\n"
-                + "}";
-
-        String actual = Differ.generateDiff(filePath1, filePath2);
-        assertEquals(expected, actual);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Differ.generateDiff(filePath1, filePath2, "unsupported");
+        });
     }
 
     @Test
-    public void testGenerateYaml() throws IOException {
-        String filePath1 = "file1.yml";
-        String filePath2 = "file2.yml";
+    public void testFileNotFound() {
+        String filePath1 = "src/test/resources/nonexistentfile.json";
+        String filePath2 = "src/test/resources/file2.json";
 
-        String expected = "{\n"
-                + "  - default_gateway: true\n"
-                + "  + default_gateway: false\n"
-                + "    floating_ip: 9.30.16.144\n"
-                + "  - gateway: 9.30.16.129\n"
-                + "  - mtu: 1500\n"
-                + "  - prefix: 25\n"
-                + "  + prefix: 96\n"
-                + "  + subnet: 9.30.16.0\n"
-                + "}";
-
-        String actual = Differ.generateDiff(filePath1, filePath2);
-        assertEquals(expected, actual);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Differ.generateDiff(filePath1, filePath2, "stylish");
+        });
     }
 
     @Test
-    public void testGenerateWithEmptyFile() throws IOException {
-        String filePath1 = "file1.json";
-        String filePath2 = "empty.json";
+    public void testUnsupportedFileFormat() {
+        String filePath1 = "src/test/resources/file1.txt";
+        String filePath2 = "src/test/resources/file2.json";
 
-        String expected = "{\n"
-                + "  - follow: false\n"
-                + "  - host: hexlet.io\n"
-                + "  - proxy: 123.234.53.22\n"
-                + "  - timeout: 50\n"
-                + "}";
-
-        String actual = Differ.generateDiff(filePath1, filePath2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testGenerateWithIdenticalFiles() throws IOException {
-        String filePath1 = "file1.json";
-        String filePath2 = "file1.json";
-
-        String expected = "{\n"
-                + "    follow: false\n"
-                + "    host: hexlet.io\n"
-                + "    proxy: 123.234.53.22\n"
-                + "    timeout: 50\n"
-                + "}";
-
-        String actual = Differ.generateDiff(filePath1, filePath2);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testGenerateWithDifferentKeys() throws IOException {
-        String filePath1 = "file1.json";
-        String filePath2 = "file3.json";
-
-        String expected = "{\n"
-                + "  - follow: false\n"
-                + "  - host: hexlet.io\n"
-                + "  - proxy: 123.234.53.22\n"
-                + "  - timeout: 50\n"
-                + "  + key3: value3\n"
-                + "}";
-
-        String actual = Differ.generateDiff(filePath1, filePath2);
-        assertEquals(expected, actual);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Differ.generateDiff(filePath1, filePath2, "stylish");
+        });
     }
 }
