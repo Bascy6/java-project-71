@@ -5,8 +5,8 @@
 
 <a href="https://codeclimate.com/github/Bascy6/java-project-71/test_coverage"><img src="https://api.codeclimate.com/v1/badges/1452ad90af24af091e5d/test_coverage" /></a>
 
-#### Step 6:
-https://asciinema.org/a/4MgLhHuYWuq1rT3REykcZxwuI
+#### Step 6: https://asciinema.org/a/4MgLhHuYWuq1rT3REykcZxwuI
 
-#### Step 8:
-https://asciinema.org/a/Wyz9uMXPnOHGspEAQthY19Op1
+#### Step 8: https://asciinema.org/a/Wyz9uMXPnOHGspEAQthY19Op1
+
+#### Step 9: https://asciinema.org/a/Z4GQ8ilv2z6aR90qG0woeVbdk
