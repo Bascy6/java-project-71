@@ -11,7 +11,6 @@ public class Plain {
 
         StringBuilder result = new StringBuilder();
 
-        // Combine keys from both maps
         TreeMap<String, Object> combinedMap = new TreeMap<>(map1);
         combinedMap.putAll(map2);
 
