@@ -1,44 +1,32 @@
+# Makefile
+
 .DEFAULT_GOAL := build-run
 
-setup:
-	chmod +x ./gradlew
-	./gradlew wrapper --gradle-version 8.7
-
-clean:
-	chmod +x ./gradlew
-	./gradlew clean
-
-build:
-	chmod +x ./gradlew
-	./gradlew clean build
-
 install:
-	chmod +x ./gradlew
-	./gradlew clean install
+	./gradlew install
 
 run-dist:
-	chmod +x ./gradlew
+	# Очистка от результатов предыдущей сборки
+	./gradlew clean
+	# Создание jar исполняемого файла
+	./gradlew installDist
+	# Запуск исполняемого файла
 	./build/install/app/bin/app
 
+build:
+	./gradlew build
+
 run:
-	chmod +x ./gradlew
 	./gradlew run
 
 test:
-	chmod +x ./gradlew
 	./gradlew test
 
 report:
-	chmod +x ./gradlew
 	./gradlew jacocoTestReport
 
-checkstyleMain:
-	chmod +x ./gradlew
+lint:
 	./gradlew checkstyleMain
-
-check-deps:
-	chmod +x ./gradlew
-	./gradlew dependencyUpdates -Drevision=release
 
 build-run: build run
 
