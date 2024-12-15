@@ -2,6 +2,7 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -60,6 +61,20 @@ public class DifferTest {
         String expected = normalize(Files.readString(Paths.get("src/test/resources/expected/expected_json.txt")));
         String result = normalize(Differ.generateDiff(filePath1, filePath2, "json"));
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void testFileNotFound() {
+        String filePath1 = "src/test/resources/nonexistent_file.json";
+        String filePath2 = "src/test/resources/file2.json";
+        assertThrows(IllegalArgumentException.class, () -> Differ.generateDiff(filePath1, filePath2, "stylish"));
+    }
+
+    @Test
+    public void testUnsupportedFormat() {
+        String filePath1 = "src/test/resources/file1.json";
+        String filePath2 = "src/test/resources/file2.json";
+        assertThrows(IllegalArgumentException.class, () -> Differ.generateDiff(filePath1, filePath2, "unsupported"));
     }
 
     private String normalize(String input) {
