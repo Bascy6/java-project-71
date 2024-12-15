@@ -43,10 +43,18 @@ public class Plain {
     private static String formatValue(Object value) {
         if (value == null) {
             return "null";
-        } else if (value instanceof Map || value instanceof Object[] || value instanceof Iterable) {
+        } else if (isComplexValue(value)) {
             return "[complex value]";
         } else {
-            return value instanceof String ? "'" + value + "'" : value.toString();
+            return formatSimpleValue(value);
         }
+    }
+
+    private static boolean isComplexValue(Object value) {
+        return value instanceof Map || value instanceof Object[] || value instanceof Iterable;
+    }
+
+    private static String formatSimpleValue(Object value) {
+        return value instanceof String ? "'" + value + "'" : value.toString();
     }
 }

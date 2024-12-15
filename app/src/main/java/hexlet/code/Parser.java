@@ -16,6 +16,12 @@ public class Parser {
     private static final ObjectMapper YAML_OBJECT_MAPPER = new ObjectMapper(new YAMLFactory());
 
     public static Map<String, Object> parseFile(String filePath) throws IOException {
+        Path path = getFilePath(filePath);
+        String fileName = path.getFileName().toString().toLowerCase();
+        return parseFileByExtension(path, fileName);
+    }
+
+    private static Path getFilePath(String filePath) {
         Path path = Paths.get(filePath);
         if (!Files.exists(path)) {
             path = Paths.get("./src/test/resources", filePath);
@@ -23,8 +29,10 @@ public class Parser {
                 throw new IllegalArgumentException("File not found: " + path.toAbsolutePath());
             }
         }
+        return path;
+    }
 
-        String fileName = path.getFileName().toString().toLowerCase();
+    private static Map<String, Object> parseFileByExtension(Path path, String fileName) throws IOException {
         if (fileName.endsWith(".json")) {
             return JSON_OBJECT_MAPPER.readValue(path.toFile(), new TypeReference<Map<String, Object>>() { });
         } else if (fileName.endsWith(".yml") || fileName.endsWith(".yaml")) {
