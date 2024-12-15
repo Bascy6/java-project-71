@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 public class Stylish {
 
+
     public static String format(Map<String, Object> json1, Map<String, Object> json2) {
         Map<String, Object> map1 = new TreeMap<>(json1);
         Map<String, Object> map2 = new TreeMap<>(json2);
@@ -18,17 +19,26 @@ public class Stylish {
             Object value1 = map1.get(key);
             Object value2 = map2.get(key);
 
-            if (value1 == null && value2 != null) {
-                result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
-            } else if (value1 != null && value2 == null) {
+            if (map1.containsKey(key) && !map2.containsKey(key)) {
                 result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
-            } else if (value1 != null && !value1.equals(value2)) {
-                result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
+            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
                 result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
-            } else {
-                result.append("    ").append(key).append(": ").append(formatValue(value1)).append("\n");
+            } else if (map1.containsKey(key) && map2.containsKey(key)) {
+                if (value1 == null && value2 != null) {
+                    result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
+                    result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
+                } else if (value1 != null && value2 == null) {
+                    result.append("  - ").append(key).append(": ").append(formatValue(value2)).append("\n");
+                    result.append("  + ").append(key).append(": ").append(formatValue(value1)).append("\n");
+                } else if (value1 != null && !value1.equals(value2)) {
+                    result.append("  - ").append(key).append(": ").append(formatValue(value2)).append("\n");
+                    result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
+                } else if (value1.equals(value2)) {
+                    result.append("    ").append(key).append(": ").append(formatValue(value1)).append("\n");
+                }
             }
         }
+
 
         result.append("}");
         return result.toString();
