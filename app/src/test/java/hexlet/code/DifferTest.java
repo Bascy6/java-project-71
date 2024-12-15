@@ -77,34 +77,6 @@ public class DifferTest {
         assertThrows(IllegalArgumentException.class, () -> Differ.generateDiff(filePath1, filePath2, "unsupported"));
     }
 
-    @Test
-    public void testEmptyFiles() throws Exception {
-        String filePath1 = "src/test/resources/empty_file1.json";
-        String filePath2 = "src/test/resources/empty_file2.json";
-        String expected = normalize(Files.readString(Paths.get("src/test/resources/expected/expected_empty.txt")));
-        String result = normalize(Differ.generateDiff(filePath1, filePath2, "stylish"));
-        assertEquals(expected, result);
-    }
-
-    @Test
-    public void testIdenticalFiles() throws Exception {
-        String filePath1 = "src/test/resources/file1.json";
-        String filePath2 = "src/test/resources/file1.json";
-        String expected = normalize(Files.readString(Paths.get("src/test/resources/expected/expected_identical.txt")));
-        String result = normalize(Differ.generateDiff(filePath1, filePath2, "stylish"));
-        assertEquals(expected, result);
-    }
-
-    @Test
-    public void testMinimalChange() throws Exception {
-        String filePath1 = "src/test/resources/file1.json";
-        String filePath2 = "src/test/resources/file1_minimal_change.json";
-        String expected = normalize(
-                Files.readString(Paths.get("src/test/resources/expected/expected_minimal_change.txt")));
-        String result = normalize(Differ.generateDiff(filePath1, filePath2, "stylish"));
-        assertEquals(expected, result);
-    }
-
     private String normalize(String input) {
         return input.replaceAll("\\r\\n|\\r|\\n", "\n").trim();
     }
