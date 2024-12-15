@@ -84,6 +84,15 @@ public class DifferTest {
         assertThrows(IllegalArgumentException.class, () -> Differ.generateDiff(filePath1, filePath2, "stylish"));
     }
 
+    @Test
+    public void testDifferentFormats() throws Exception {
+        String filePath1 = "src/test/resources/file1.json";
+        String filePath2 = "src/test/resources/file2.yml";
+        String expected = normalize(Files.readString(Paths.get("src/test/resources/expected/expected_stylish.txt")));
+        String result = normalize(Differ.generateDiff(filePath1, filePath2, "stylish"));
+        assertEquals(expected, result);
+    }
+
     private String normalize(String input) {
         return input.replaceAll("\\r\\n|\\r|\\n", "\n").trim();
     }
