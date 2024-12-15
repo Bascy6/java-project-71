@@ -77,6 +77,13 @@ public class DifferTest {
         assertThrows(IllegalArgumentException.class, () -> Differ.generateDiff(filePath1, filePath2, "unsupported"));
     }
 
+    @Test
+    public void testUnsupportedFileExtension() {
+        String filePath1 = "src/test/resources/file1.txt";
+        String filePath2 = "src/test/resources/file2.json";
+        assertThrows(IllegalArgumentException.class, () -> Differ.generateDiff(filePath1, filePath2, "stylish"));
+    }
+
     private String normalize(String input) {
         return input.replaceAll("\\r\\n|\\r|\\n", "\n").trim();
     }
