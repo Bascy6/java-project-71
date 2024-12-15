@@ -31,7 +31,7 @@ public class Stylish {
                     result.append("  - ").append(key).append(": ").append(formatValue(value2)).append("\n");
                     result.append("  + ").append(key).append(": ").append(formatValue(value1)).append("\n");
                 } else if (value1 != null && !value1.equals(value2)) {
-                    result.append("  - ").append(key).append(": ").append(formatValue(value2)).append("\n");
+                    result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
                     result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
                 } else if (value1.equals(value2)) {
                     result.append("    ").append(key).append(": ").append(formatValue(value1)).append("\n");
