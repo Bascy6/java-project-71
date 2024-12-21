@@ -1,81 +1,42 @@
 package hexlet.code.formatters;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Stylish {
+    private static StringBuilder result;
 
+    public static String format(List<Map<String, Object>> comparisonResult) throws IOException {
+        result = new StringBuilder("{\n");
+        TreeMap<String, Map<String, Object>> sortedMap = new TreeMap<>();
 
-    public static String format(Map<String, Object> json1, Map<String, Object> json2) {
-        Map<String, Object> map1 = new TreeMap<>(json1);
-        Map<String, Object> map2 = new TreeMap<>(json2);
-
-        StringBuilder result = new StringBuilder("{\n");
-
-        TreeMap<String, Object> combinedMap = new TreeMap<>(map1);
-        combinedMap.putAll(map2);
-
-        for (String key : combinedMap.keySet()) {
-            Object value1 = map1.get(key);
-            Object value2 = map2.get(key);
-
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
-            } else if (map1.containsKey(key) && map2.containsKey(key)) {
-                if (value1 == null && value2 != null) {
-                    result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
-                    result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
-                } else if (value1 != null && value2 == null) {
-                    result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
-                    result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
-                } else if (value1 != null && !value1.equals(value2)) {
-                    result.append("  - ").append(key).append(": ").append(formatValue(value1)).append("\n");
-                    result.append("  + ").append(key).append(": ").append(formatValue(value2)).append("\n");
-                } else if (value1.equals(value2)) {
-                    result.append("    ").append(key).append(": ").append(formatValue(value1)).append("\n");
-                }
-            }
+        for (Map<String, Object> map : comparisonResult) {
+            String key = (String) map.get("key");
+            sortedMap.put(key, map);
         }
 
+        for (Map<String, Object> map : sortedMap.values()) {
+            String key = (String) map.get("key");
+            String status = (String) map.get("status");
 
-        result.append("}");
-        return result.toString();
-    }
-
-    private static String formatValue(Object value) {
-        if (value == null) {
-            return "null";
-        } else if (value instanceof Map) {
-            return formatMap((Map<String, Object>) value);
-        } else if (value instanceof Object[]) {
-            return formatArray((Object[]) value);
-        } else {
-            return value.toString();
-        }
-    }
-
-    private static String formatArray(Object[] array) {
-        StringBuilder result = new StringBuilder("[");
-        for (int i = 0; i < array.length; i++) {
-            result.append(formatValue(array[i]));
-            if (i < array.length - 1) {
-                result.append(", ");
-            }
-        }
-        result.append("]");
-        return result.toString();
-    }
-
-    private static String formatMap(Map<String, Object> map) {
-        StringBuilder result = new StringBuilder("{");
-        int count = 0;
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            result.append(entry.getKey()).append("=").append(formatValue(entry.getValue()));
-            count++;
-            if (count < map.size()) {
-                result.append(", ");
+            switch (status) {
+                case "updated":
+                    result.append("  - ").append(key).append(": ").append(map.get("oldValue")).append("\n");
+                    result.append("  + ").append(key).append(": ").append(map.get("newValue")).append("\n");
+                    break;
+                case "added":
+                    result.append("  + ").append(key).append(": ").append(map.get("newValue")).append("\n");
+                    break;
+                case "removed":
+                    result.append("  - ").append(key).append(": ").append(map.get("oldValue")).append("\n");
+                    break;
+                case "unchanged":
+                    result.append("    ").append(key).append(": ").append(map.get("oldValue")).append("\n");
+                    break;
+                default:
+                    throw new IOException("Unknown status: " + status);
             }
         }
         result.append("}");

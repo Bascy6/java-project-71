@@ -1,43 +1,60 @@
 package hexlet.code.formatters;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Plain {
 
-    public static String format(Map<String, Object> json1, Map<String, Object> json2) {
-        Map<String, Object> map1 = new TreeMap<>(json1);
-        Map<String, Object> map2 = new TreeMap<>(json2);
-
+    public static String format(List<Map<String, Object>> comparisonResult) throws IOException {
         StringBuilder result = new StringBuilder();
+        TreeMap<String, Map<String, Object>> sortedMap = new TreeMap<>();
 
-        TreeMap<String, Object> combinedMap = new TreeMap<>(map1);
-        combinedMap.putAll(map2);
+        for (Map<String, Object> map : comparisonResult) {
+            String key = (String) map.get("key");
+            sortedMap.put(key, map);
+        }
 
-        for (String key : combinedMap.keySet()) {
-            Object value1 = map1.get(key);
-            Object value2 = map2.get(key);
+        for (Map<String, Object> map : sortedMap.values()) {
+            String key = (String) map.get("key");
+            String status = (String) map.get("status");
 
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result.append("Property '").append(key).append("' was removed\n");
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result.append("Property '").append(key).append("' was added with value: ")
-                        .append(formatValue(value2)).append("\n");
-            } else if (map1.containsKey(key) && map2.containsKey(key)) {
-                if (value1 == null && value2 != null) {
-                    result.append("Property '").append(key).append("' was updated. From null to ")
-                            .append(formatValue(value2)).append("\n");
-                } else if (value1 != null && value2 == null) {
-                    result.append("Property '").append(key).append("' was updated. From ")
-                            .append(formatValue(value1)).append(" to null\n");
-                } else if (value1 != null && !value1.equals(value2)) {
-                    result.append("Property '").append(key).append("' was updated. From ")
-                            .append(formatValue(value1)).append(" to ").append(formatValue(value2)).append("\n");
-                }
+            switch (status) {
+                case "updated":
+                    result.append("Property '")
+                            .append(key)
+                            .append("' was updated. From ")
+                            .append(formatValue(map.get("oldValue")))
+                            .append(" to ")
+                            .append(formatValue(map.get("newValue")))
+                            .append("\n");
+                    break;
+                case "added":
+                    result.append("Property '")
+                            .append(key)
+                            .append("' was added with value: ")
+                            .append(formatValue(map.get("newValue")))
+                            .append("\n");
+                    break;
+                case "removed":
+                    result.append("Property '")
+                            .append(key)
+                            .append("' was removed")
+                            .append("\n");
+                    break;
+                case "unchanged":
+                    break;
+                default:
+                    throw new IOException("Unknown status: " + status);
             }
         }
 
-        return result.toString().trim();
+        if (result.length() > 0) {
+            result.deleteCharAt(result.length() - 1);
+        }
+
+        return result.toString();
     }
 
     private static String formatValue(Object value) {
